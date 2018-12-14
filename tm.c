@@ -50,33 +50,27 @@ void file_extraction ()
     int i,j;
 
     fp = fopen("input.txt", "r");
-    fscanf(fp,"%d",&states);
-    ch = fgetc(fp);
-    while (ch!= '\n')
-    {
+    fscanf(fp,"%d ",&states);
+
+    while ((ch = fgetc(fp)) != '\n')
         if (ch != ',')
             alphabet[count++] = ch;
-        ch = fgetc(fp);
 
-    }
+    numberOfTransitions = states * (count);
 
-    numberOfTransitions = states * (count+1);
-
-    for (i=0; i < numberOfTransitions; i++){
-        fscanf(fp,"%s",transition[i]);
-        printf("%s",transition[i]);
-    }
+    for (i = 0; i < numberOfTransitions; i++)
+        fscanf(fp,"%s",&transition[i]);
 
     count = 0;
     ch = fgetc(fp);
-    while (ch!= '\n')
-    {
+    while ((ch = fgetc(fp)) != '\n')
         tape[count++] = ch;
-        ch = fgetc(fp);
-    }
+
     anothercounter = count;
 
     fscanf(fp,"%d",&head);
+    for(i = count; i < (count+10); i++)
+        tape[i] = '#';
 
 }
 
@@ -86,11 +80,8 @@ int main()
     char filename[100] ;
     file_extraction();
     result = acceptance_check();
-    if (result == 1)
-        printf("The String Is Accepted. ");
-    printf("The Head Had Stopped At Position Number %d",head);
-    printf("The Tape Contains : ");
-    for(i=0; i<anothercounter; i++)
-        printf("%s",tape[i]);
+    result == 1 ? printf("The String Is Accepted.\n") : printf("The String Is Rejected.\n");
+    printf("The Head Had Stopped At Position Number %d\n",head);
+    printf("The Tape Contains %s",tape);
     return 0;
 }
